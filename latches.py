@@ -20,6 +20,10 @@ class RSLatch:
         self.nor_gate_2.b = self.nor_gate_1.q
         self.nor_gate_2.eval()
 
+        self.nor_gate_1.a = self.r
+        self.nor_gate_1.b = self.nor_gate_2.q
+        self.nor_gate_1.eval()
+
         self.q = self.nor_gate_1.q
         self.nq = self.nor_gate_2.q
 
