@@ -1,9 +1,9 @@
 class NorGate:
 
     def __init__(self):
-        self.a = False
-        self.b = False
-        self.q = '?'
+        self.a = None
+        self.b = None
+        self.q = None
 
     def eval(self):
         self.q = not (self.a or self.b)
@@ -16,8 +16,8 @@ class NotGate:
     def __init__(self):
         self.nor_gate = NorGate()
 
-        self.a = False
-        self.q = '?'
+        self.a = None
+        self.q = None
 
     def eval(self):
         self.nor_gate.a = self.a
@@ -36,9 +36,9 @@ class AndGate:
         self.not_gate_2 = NotGate()
         self.nor_gate = NorGate()
 
-        self.a = False
-        self.b = False
-        self.q = '?'
+        self.a = None
+        self.b = None
+        self.q = None
 
     def eval(self):
         self.not_gate_1.a = self.a
@@ -62,9 +62,9 @@ class NandGate:
         self.and_gate = AndGate()
         self.not_gate = NotGate()
 
-        self.a = False
-        self.b = False
-        self.q = '?'
+        self.a = None
+        self.b = None
+        self.q = None
 
     def eval(self):
         self.and_gate.a = self.a

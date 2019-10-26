@@ -1,15 +1,18 @@
-from latches import DLatch
+from latches import RSLatch
 
-d_latch = DLatch()
-print(d_latch)
+latch = RSLatch()
+latch.r = True
+latch.s = False
+
+print(latch)
 
 while True:
-    key = input("d/e")
-    if key == 'd':
-        d_latch.d = not d_latch.d
-    elif key == 'e':
-        d_latch.e = not d_latch.e
+    key = input("r/s")
+    if key == 'r':
+        latch.r = not latch.r
+    elif key == 's':
+        latch.s = not latch.s
 
-    d_latch.eval()
-    print(d_latch)
+    latch.eval()
+    print(latch)
 

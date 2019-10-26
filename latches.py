@@ -6,10 +6,10 @@ class RSLatch:
         self.nor_gate_1 = NorGate()
         self.nor_gate_2 = NorGate()
 
-        self.r = False
-        self.s = False
-        self.q = '?'
-        self.nq = '?'
+        self.r = None
+        self.s = None
+        self.q = None
+        self.nq = None
 
     def eval(self):
         self.nor_gate_1.a = self.r
@@ -38,10 +38,10 @@ class DLatch:
         self.not_gate = NotGate()
         self.rs_latch = RSLatch()
 
-        self.d = False
-        self.e = False
-        self.q = '?'
-        self.nq = '?'
+        self.d = None
+        self.e = None
+        self.q = None
+        self.nq = None
 
     def eval(self):
         self.not_gate.a = self.d
