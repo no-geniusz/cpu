@@ -1,3 +1,4 @@
+from util import to_bit
 from gates import *
 
 class RSLatch:
@@ -28,7 +29,7 @@ class RSLatch:
         self.nq = self.nor_gate_2.q
 
     def __str__(self):
-        return "RSLatch{'r': %s, 's': %s, 'q': %s, 'nq': %s}" % (self.r, self.s, self.q, self.nq)
+        return "RSQQ\n%s%s%s%s" % (to_bit(self.r), to_bit(self.s), to_bit(self.q), to_bit(self.nq))
 
 class DLatch:
 
@@ -63,5 +64,4 @@ class DLatch:
         self.nq = self.rs_latch.nq
 
     def __str__(self):
-        return "DLatch{'d': %s, 'e': %s, 'q': %s, 'nq': %s}" % (self.d, self.e, self.q, self.nq)
-
+        return "DEQQ\n%s%s%s%s" % (to_bit(self.d), to_bit(self.e), to_bit(self.q), to_bit(self.nq))

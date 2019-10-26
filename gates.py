@@ -1,3 +1,5 @@
+from util import to_bit
+
 class NorGate:
 
     def __init__(self):
@@ -9,7 +11,7 @@ class NorGate:
         self.q = not (self.a or self.b)
 
     def __str__(self):
-        return "NorGate{'a': %s, 'b': %s, 'q': %s}" % (self.a, self.b, self.q)
+        return "NorGate{'a': %s, 'b': %s, 'q': %s}" % (to_bit(self.a), to_bit(self.b), to_bit(self.q))
 
 class NotGate:
 
@@ -27,7 +29,7 @@ class NotGate:
         self.q = self.nor_gate.q
 
     def __str__(self):
-        return "NorGate{'a': %s, 'q': %s}" % (self.a, self.q)
+        return "NorGate{'a': %s, 'q': %s}" % (to_bit(self.a), to_bit(self.q))
 
 class AndGate:
 
@@ -54,7 +56,7 @@ class AndGate:
         self.q = self.nor_gate.q
 
     def __str__(self):
-        return "AndGate{'a': %s, 'b': %s, 'q': %s}" % (self.a, self.b, self.q)
+        return "AndGate{'a': %s, 'b': %s, 'q': %s}" % (to_bit(self.a), to_bit(self.b), to_bit(self.q))
 
 class NandGate:
 
@@ -77,5 +79,5 @@ class NandGate:
         self.q = self.not_gate.q
 
     def __str__(self):
-        return "NandGate{'a': %s, 'b': %s, 'q': %s}" % (self.a, self.b, self.q)
+        return "NandGate{'a': %s, 'b': %s, 'q': %s}" % (to_bit(self.a), to_bit(self.b), to_bit(self.q))
 
