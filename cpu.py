@@ -1,18 +1,20 @@
-from latches import DLatch
+from registers import ShiftRegister
 
-latch = DLatch()
-latch.d = True
-latch.e = False
+reg = ShiftRegister()
+for i in range(ShiftRegister.size):
+    reg.data[i] = False
+reg.e = False
+reg.d = False
 
-print(latch)
+print(reg)
 
 while True:
     key = input("d/e")
     if key == 'e':
-        latch.e = not latch.e
+        reg.e = not reg.e
     elif key == 'd':
-        latch.d = not latch.d
+        reg.d = not reg.d
 
-    latch.eval()
-    print(latch)
+    reg.eval()
+    print(reg)
 
