@@ -1,5 +1,15 @@
 from util import to_bit
 
+class TwoInGate:
+
+    def __init__(self):
+        self.a = None
+        self.b = None
+        self.q = None
+
+    def __str__(self):
+        return 'ABQ\n' + to_bit(self.a) + to_bit(self.b) + to_bit(self.q)
+
 class NorGate:
 
     def __init__(self):
@@ -81,15 +91,12 @@ class NandGate:
     def __str__(self):
         return "NandGate{'a': %s, 'b': %s, 'q': %s}" % (to_bit(self.a), to_bit(self.b), to_bit(self.q))
 
-class OrGate:
+class OrGate(TwoInGate):
 
     def __init__(self):
+        super(OrGate, self).__init__()
         self.nor_gate = NorGate()
         self.not_gate = NotGate()
-
-        self.a = None
-        self.b = None
-        self.q = None
 
     def eval(self):
         self.nor_gate.a = self.a
@@ -101,19 +108,13 @@ class OrGate:
 
         self.q = self.not_gate.q
 
-    def __str__(self):
-        return 'ABQ\n' + to_bit(self.a) + to_bit(self.b) + to_bit(self.q)
-
-class XorGate:
+class XorGate(TwoInGate):
 
     def __init__(self):
+        super(XorGate, self).__init__()
         self.nand_gate = NandGate()
         self.or_gate = OrGate()
         self.and_gate = AndGate()
-
-        self.a = None
-        self.b = None
-        self.q = None
 
     def eval(self):
         self.nand_gate.a = self.a
@@ -129,7 +130,3 @@ class XorGate:
         self.and_gate.eval()
 
         self.q = self.and_gate.q
-
-    def __str__(self):
-        return 'ABQ\n' + to_bit(self.a) + to_bit(self.b) + to_bit(self.q)
-
