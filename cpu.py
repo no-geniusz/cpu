@@ -1,10 +1,10 @@
-from registers import ShiftRegister
+from registers import Register
+from registers import REG_WIDTH
 
-reg = ShiftRegister()
-for i in range(ShiftRegister.size):
-    reg.data[i] = False
+reg = Register()
+for i in range(REG_WIDTH):
+    reg.d[i] = False
 reg.e = False
-reg.d = False
 
 print(reg)
 
@@ -12,8 +12,10 @@ while True:
     key = input("d/e")
     if key == 'e':
         reg.e = not reg.e
-    elif key == 'd':
-        reg.d = not reg.d
+
+    for ch in range(1,5):
+        if (str(ch) == key):
+            reg.d[REG_WIDTH - ch] = not reg.d[REG_WIDTH - ch]
 
     reg.eval()
     print(reg)
