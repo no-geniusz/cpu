@@ -104,3 +104,32 @@ class OrGate:
     def __str__(self):
         return 'ABQ\n' + to_bit(self.a) + to_bit(self.b) + to_bit(self.q)
 
+class XorGate:
+
+    def __init__(self):
+        self.nand_gate = NandGate()
+        self.or_gate = OrGate()
+        self.and_gate = AndGate()
+
+        self.a = None
+        self.b = None
+        self.q = None
+
+    def eval(self):
+        self.nand_gate.a = self.a
+        self.nand_gate.b = self.b
+        self.nand_gate.eval()
+
+        self.or_gate.a = self.a
+        self.or_gate.b = self.b
+        self.or_gate.eval()
+
+        self.and_gate.a = self.nand_gate.q
+        self.and_gate.b = self.or_gate.q
+        self.and_gate.eval()
+
+        self.q = self.and_gate.q
+
+    def __str__(self):
+        return 'ABQ\n' + to_bit(self.a) + to_bit(self.b) + to_bit(self.q)
+
