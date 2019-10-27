@@ -81,3 +81,26 @@ class NandGate:
     def __str__(self):
         return "NandGate{'a': %s, 'b': %s, 'q': %s}" % (to_bit(self.a), to_bit(self.b), to_bit(self.q))
 
+class OrGate:
+
+    def __init__(self):
+        self.nor_gate = NorGate()
+        self.not_gate = NotGate()
+
+        self.a = None
+        self.b = None
+        self.q = None
+
+    def eval(self):
+        self.nor_gate.a = self.a
+        self.nor_gate.b = self.b
+        self.nor_gate.eval()
+
+        self.not_gate.a = self.nor_gate.q
+        self.not_gate.eval()
+
+        self.q = self.not_gate.q
+
+    def __str__(self):
+        return 'ABQ\n' + to_bit(self.a) + to_bit(self.b) + to_bit(self.q)
+
