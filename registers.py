@@ -45,15 +45,9 @@ class ShiftRegister:
 class Register:
 
     def __init__(self):
-        self.d = []
-        self.q = []
-        self.latches = []
-
-        for i in range(REG_WIDTH):
-            self.d.insert(0, None)
-            self.q.insert(0, None)
-            self.latches.insert(0, DLatch())
-
+        self.d = [None for k in range(REG_WIDTH)]
+        self.q = [None for k in range(REG_WIDTH)]
+        self.latches = [DLatch() for k in range(REG_WIDTH)]
         self.e  = None
 
     def eval(self):
@@ -64,19 +58,14 @@ class Register:
             self.q[i] = self.latches[i].q
 
     def __str__(self):
-        s = 'E%s' % (to_bit(self.e))
+        s = 'E%s\n' % (to_bit(self.e))
+        s += 'D' * REG_WIDTH + '\n'
+        for i in range(REG_WIDTH, 0, -1):
+            s = s + to_bit(self.d[i - 1])
         s = s + '\n'
-        for i in range(REG_WIDTH):
-            s = s + 'D'
-        s = s + '\n'
-        for i in range(REG_WIDTH):
-            s = s + to_bit(self.d[REG_WIDTH - i - 1])
-        s = s + '\n'
-        for i in range(REG_WIDTH):
-            s = s + 'Q'
-        s = s + '\n'
-        for i in range(REG_WIDTH):
-            s = s + to_bit(self.q[REG_WIDTH - i - 1])
+        s += 'Q' * REG_WIDTH + '\n'
+        for i in range(REG_WIDTH, 0, -1):
+            s = s + to_bit(self.q[i - 1])
 
         return s
 
