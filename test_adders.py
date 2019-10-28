@@ -1,4 +1,4 @@
-from adders import FullAdder
+from adders import FullAdder, RCAdder
 
 def test_adding_000():
     adder = FullAdder()
@@ -95,3 +95,25 @@ def test_adding_111():
 
     assert adder.s == 1
     assert adder.cout == 1
+
+def test_rc_adder():
+    rc_adder = RCAdder()
+
+    rc_adder.a[0] = 1
+    rc_adder.a[1] = 1
+    rc_adder.a[2] = 1
+    rc_adder.a[3] = 0
+
+    rc_adder.b[0] = 1
+    rc_adder.b[1] = 0
+    rc_adder.b[2] = 1
+    rc_adder.b[3] = 0
+
+    rc_adder.eval()
+
+    assert rc_adder.s[0] == 0
+    assert rc_adder.s[1] == 0
+    assert rc_adder.s[2] == 1
+    assert rc_adder.s[3] == 1
+    assert rc_adder.c == 0
+

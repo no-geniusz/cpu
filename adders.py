@@ -1,4 +1,5 @@
 from gates import XorGate, AndGate, OrGate
+from registers import REG_WIDTH
 
 class FullAdder:
 
@@ -41,3 +42,27 @@ class FullAdder:
 
         self.cout = self.or_gate.q
 
+class RCAdder:
+
+    def __init__(self):
+        self.adders = [FullAdder() for k in range(REG_WIDTH)]
+        self.a = [None for k in range(REG_WIDTH)]
+        self.b = [None for k in range(REG_WIDTH)]
+        self.s = [None for k in range(REG_WIDTH)]
+        self.c = [None for k in range(REG_WIDTH)]
+
+    def eval(self):
+        self.adders[0].a = self.a[0]
+        self.adders[0].b = self.b[0]
+        self.adders[0].cin = 0
+        self.adders[0].eval()
+        self.s[0] = self.adders[0].s
+
+        for k in range(1, REG_WIDTH):
+            self.adders[k].a = self.a[k]
+            self.adders[k].b = self.b[k]
+            self.adders[k].cin = self.adders[k - 1].cout
+            self.adders[k].eval()
+            self.s[k] = self.adders[k].s
+
+        self.c = self.adders[REG_WIDTH - 1].cout
