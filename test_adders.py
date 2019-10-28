@@ -117,3 +117,4 @@ def test_rc_adder():
     assert rc_adder.s[3] == 1
     assert rc_adder.c == 0
 
+    assert rc_adder.__str__() == 'AAAA BBBB CSSSS\n0111 0101 01100'

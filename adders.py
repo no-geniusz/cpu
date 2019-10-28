@@ -1,5 +1,6 @@
 from gates import XorGate, AndGate, OrGate
 from registers import REG_WIDTH
+from util import to_bit
 
 class FullAdder:
 
@@ -49,7 +50,7 @@ class RCAdder:
         self.a = [None for k in range(REG_WIDTH)]
         self.b = [None for k in range(REG_WIDTH)]
         self.s = [None for k in range(REG_WIDTH)]
-        self.c = [None for k in range(REG_WIDTH)]
+        self.c = None
 
     def eval(self):
         self.adders[0].a = self.a[0]
@@ -66,3 +67,8 @@ class RCAdder:
             self.s[k] = self.adders[k].s
 
         self.c = self.adders[REG_WIDTH - 1].cout
+
+    def __str__(self):
+        return 'AAAA BBBB CSSSS\n%s%s%s%s %s%s%s%s %s%s%s%s%s' % (to_bit(self.a[3]), to_bit(self.a[2]), to_bit(self.a[1]), to_bit(self.a[0]),
+            to_bit(self.b[3]), to_bit(self.b[2]), to_bit(self.b[1]), to_bit(self.b[0]), to_bit(self.c), 
+            to_bit(self.s[3]), to_bit(self.s[2]), to_bit(self.s[1]), to_bit(self.s[0]))
