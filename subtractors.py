@@ -1,4 +1,6 @@
 from gates import XorGate, AndGate, OrGate, NotGate
+from registers import REG_WIDTH
+from util import to_bit
 
 class FullSubtractor:
 
@@ -47,4 +49,33 @@ class FullSubtractor:
         self.d = self.xor2.q
         self.bout = self.or1.q
 
+class RCSubtractor:
+
+    x = [None for k in range(REG_WIDTH)]
+    y = [None for k in range(REG_WIDTH)]
+    d = [None for k in range(REG_WIDTH)]
+    b = None
+
+    _subtractors = [FullSubtractor() for k in range(REG_WIDTH)]
+
+    def eval(self):
+        self._subtractors[0].x = self.x[0]
+        self._subtractors[0].y = self.y[0]
+        self._subtractors[0].bin = 0
+        self._subtractors[0].eval()
+        self.d[0] = self._subtractors[0].d
+
+        for k in range(1, REG_WIDTH):
+            self._subtractors[k].x = self.x[k]
+            self._subtractors[k].y = self.y[k]
+            self._subtractors[k].bin = self._subtractors[k - 1].bout
+            self._subtractors[k].eval()
+            self.d[k] = self._subtractors[k].d
+
+        self.b = self._subtractors[REG_WIDTH - 1].bout
+
+    def __str__(self):
+        return 'BXXXX YYYY DDDD\n%s%s%s%s%s %s%s%s%s %s%s%s%s' % (to_bit(self.b), to_bit(self.x[3]), to_bit(self.x[2]), to_bit(self.x[1]), to_bit(self.x[0]),
+            to_bit(self.y[3]), to_bit(self.y[2]), to_bit(self.y[1]), to_bit(self.y[0]), 
+            to_bit(self.d[3]), to_bit(self.d[2]), to_bit(self.d[1]), to_bit(self.d[0]))
 
