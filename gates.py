@@ -25,11 +25,10 @@ class NorGate:
 
 class NotGate:
 
-    def __init__(self):
-        self.nor_gate = NorGate()
+    nor_gate = NorGate()
 
-        self.a = None
-        self.q = None
+    a = None
+    q = None
 
     def eval(self):
         self.nor_gate.a = self.a
