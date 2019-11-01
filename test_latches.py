@@ -1,4 +1,4 @@
-from latches import SRLatch, DLatch
+from latches import SRLatch, DLatch, JKFlipFlop
 
 def test_SRLatch():
     sr_latch = SRLatch()
@@ -75,3 +75,30 @@ def test_DLatch():
 
     assert d_latch.q == 1
     assert d_latch.nq == 0
+
+def test_JKFlipFlop():
+    flip_flop = JKFlipFlop()
+
+    flip_flop.j = 0
+    flip_flop.k = 1
+    flip_flop.clk = 1
+    flip_flop.eval()
+
+    assert flip_flop.q == 1
+    assert flip_flop.nq == 0
+
+    flip_flop.j = 1
+    flip_flop.eval()
+
+    assert flip_flop.q == 0
+    assert flip_flop.nq == 1
+
+    flip_flop.eval()
+
+    assert flip_flop.q == 1
+    assert flip_flop.nq == 0
+
+    flip_flop.eval()
+
+    assert flip_flop.q == 0
+    assert flip_flop.nq == 1

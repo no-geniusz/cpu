@@ -65,3 +65,43 @@ class DLatch:
 
     def __str__(self):
         return "DEQQ\n%s%s%s%s" % (to_bit(self.d), to_bit(self.e), to_bit(self.q), to_bit(self.nq))
+
+class JKFlipFlop():
+    
+    def __init__(self):
+        self.j = None
+        self.k = None
+        self.clk = None
+
+        self.q = None
+        self.nq = None
+
+        self.__sr_latch = SRLatch()
+        self.__and_j = AndGate()
+        self.__and_k = AndGate()
+        self.__and_jclk = AndGate()
+        self.__and_kclk = AndGate()
+
+    def eval(self):
+        self.__and_j.a = self.j
+        self.__and_j.b = self.__sr_latch.q
+        self.__and_j.eval()
+
+        self.__and_jclk.a = self.__and_j.q
+        self.__and_jclk.b = self.clk
+        self.__and_jclk.eval()
+
+        self.__and_k.a = self.k
+        self.__and_k.b = self.__sr_latch.nq
+        self.__and_k.eval()
+
+        self.__and_kclk.a = self.__and_k.q
+        self.__and_kclk.b = self.clk
+        self.__and_kclk.eval()
+
+        self.__sr_latch.r = self.__and_jclk.q
+        self.__sr_latch.s = self.__and_kclk.q
+        self.__sr_latch.eval()
+
+        self.q = self.__sr_latch.q
+        self.nq = self.__sr_latch.nq
