@@ -83,8 +83,10 @@ class JKFlipFlop():
         self.__and_kclk = AndGate()
 
     def eval(self):
+        self.__sr_latch.eval()
+
         self.__and_j.a = self.j
-        self.__and_j.b = self.__sr_latch.q
+        self.__and_j.b = self.__sr_latch.nq
         self.__and_j.eval()
 
         self.__and_jclk.a = self.__and_j.q
@@ -92,15 +94,15 @@ class JKFlipFlop():
         self.__and_jclk.eval()
 
         self.__and_k.a = self.k
-        self.__and_k.b = self.__sr_latch.nq
+        self.__and_k.b = self.__sr_latch.q
         self.__and_k.eval()
 
         self.__and_kclk.a = self.__and_k.q
         self.__and_kclk.b = self.clk
         self.__and_kclk.eval()
 
-        self.__sr_latch.r = self.__and_jclk.q
-        self.__sr_latch.s = self.__and_kclk.q
+        self.__sr_latch.r = self.__and_kclk.q
+        self.__sr_latch.s = self.__and_jclk.q
         self.__sr_latch.eval()
 
         self.q = self.__sr_latch.q
