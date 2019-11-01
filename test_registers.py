@@ -13,6 +13,11 @@ def test_register_eval():
 
     reg.eval()
 
+    assert reg.q[3] == 0
+    assert reg.q[2] == 1
+    assert reg.q[1] == 0
+    assert reg.q[0] == 1
+
     for i in range(REG_WIDTH):
         reg.d[i] = 0
     reg.e = 0
