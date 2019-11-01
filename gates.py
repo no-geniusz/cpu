@@ -25,17 +25,18 @@ class NorGate:
 
 class NotGate:
 
-    nor_gate = NorGate()
+    def __init__(self):
+        self.a = None
+        self.q = None
 
-    a = None
-    q = None
+        self.__nor_gate = NorGate()
 
     def eval(self):
-        self.nor_gate.a = self.a
-        self.nor_gate.b = self.a
-        self.nor_gate.eval()
+        self.__nor_gate.a = self.a
+        self.__nor_gate.b = self.a
+        self.__nor_gate.eval()
 
-        self.q = self.nor_gate.q
+        self.q = self.__nor_gate.q
 
     def __str__(self):
         return "NorGate{'a': %s, 'q': %s}" % (to_bit(self.a), to_bit(self.q))
