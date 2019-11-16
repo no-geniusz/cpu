@@ -10,7 +10,7 @@ class Alu:
     o = [None for k in range(2)]
     x = [None for k in range(REG_WIDTH)]
 
-    _adder = RCAdder()
+    _adder = RCAdder(REG_WIDTH)
     _subtractor = RCSubtractor()
     _mux = Multiplexer()
 

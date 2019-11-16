@@ -97,7 +97,7 @@ def test_adding_111():
     assert adder.cout == 1
 
 def test_rc_adder_carry():
-    rc_adder = RCAdder()
+    rc_adder = RCAdder(4)
 
     rc_adder.a[0] = 1
     rc_adder.a[1] = 1
@@ -117,10 +117,10 @@ def test_rc_adder_carry():
     assert rc_adder.s[3] == 1
     assert rc_adder.c == 1
 
-    assert rc_adder.__str__() == 'AAAA BBBB CSSSS\n1111 1111 11110'
+    assert str(rc_adder) == 'A 1111\nB 1111\nC11110'
 
 def test_rc_adder():
-    rc_adder = RCAdder()
+    rc_adder = RCAdder(4)
 
     rc_adder.a[0] = 1
     rc_adder.a[1] = 1
@@ -140,4 +140,4 @@ def test_rc_adder():
     assert rc_adder.s[3] == 1
     assert rc_adder.c == 0
 
-    assert rc_adder.__str__() == 'AAAA BBBB CSSSS\n0111 0101 01100'
+    assert str(rc_adder) == 'A 0111\nB 0101\nC01100'

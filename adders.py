@@ -45,11 +45,12 @@ class FullAdder:
 
 class RCAdder:
 
-    def __init__(self):
-        self.adders = [FullAdder() for k in range(REG_WIDTH)]
-        self.a = [None for k in range(REG_WIDTH)]
-        self.b = [None for k in range(REG_WIDTH)]
-        self.s = [None for k in range(REG_WIDTH)]
+    def __init__(self, width):
+        self.__width = width
+        self.adders = [FullAdder() for k in range(width)]
+        self.a = [None for k in range(width)]
+        self.b = [None for k in range(width)]
+        self.s = [None for k in range(width)]
         self.c = None
 
     def eval(self):
@@ -59,16 +60,26 @@ class RCAdder:
         self.adders[0].eval()
         self.s[0] = self.adders[0].s
 
-        for k in range(1, REG_WIDTH):
+        for k in range(1, self.__width):
             self.adders[k].a = self.a[k]
             self.adders[k].b = self.b[k]
             self.adders[k].cin = self.adders[k - 1].cout
             self.adders[k].eval()
             self.s[k] = self.adders[k].s
 
-        self.c = self.adders[REG_WIDTH - 1].cout
+        self.c = self.adders[self.__width - 1].cout
 
     def __str__(self):
-        return 'AAAA BBBB CSSSS\n%s%s%s%s %s%s%s%s %s%s%s%s%s' % (to_bit(self.a[3]), to_bit(self.a[2]), to_bit(self.a[1]), to_bit(self.a[0]),
-            to_bit(self.b[3]), to_bit(self.b[2]), to_bit(self.b[1]), to_bit(self.b[0]), to_bit(self.c), 
-            to_bit(self.s[3]), to_bit(self.s[2]), to_bit(self.s[1]), to_bit(self.s[0]))
+        s = 'A '
+        for k in range(self.__width - 1, -1, -1):
+            s += to_bit(self.a[k])
+
+        s += '\nB '
+        for k in range(self.__width - 1, -1, -1):
+            s += to_bit(self.b[k])
+
+        s += '\nC' + to_bit(self.c)
+        for k in range(self.__width - 1, -1, -1):
+            s += to_bit(self.s[k])
+
+        return s
