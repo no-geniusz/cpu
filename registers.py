@@ -47,7 +47,7 @@ class ShiftRegister:
 class WideRegister:
 
     def __init__(self, width):
-        self.width = width
+        self.__width = width
         self.load = None
         self.clk = None
         self.d = [None for _ in range(width)]
@@ -56,7 +56,7 @@ class WideRegister:
         self.__regs = [Register() for _ in range(width)]
 
     def eval(self):
-        for i in range(self.width):
+        for i in range(self.__width):
             reg = self.__regs[i]
             reg.load = self.load
             reg.clk = self.clk
@@ -69,10 +69,10 @@ class WideRegister:
     def __str__(self):
         s = 'load=%s, clk=%s, enable=%s\n' % (to_bit(self.load), to_bit(self.clk), to_bit(self.enable))
         s += 'Q'
-        for i in range(self.width, 0, -1):
+        for i in range(self.__width, 0, -1):
             s = s + str(i)
         s += '\n '
-        for i in range(self.width, 0, -1):
+        for i in range(self.__width, 0, -1):
             s = s + to_bit(self.q[i - 1])
 
         return s
