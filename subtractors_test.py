@@ -97,7 +97,7 @@ def test_subtract_111():
     assert subtractor.bout == 1
 
 def test_rc_substractor_borrow():
-    rc_substractor = RCSubtractor()
+    rc_substractor = RCSubtractor(4)
 
     rc_substractor.x[0] = 0
     rc_substractor.x[1] = 0
@@ -117,10 +117,10 @@ def test_rc_substractor_borrow():
     assert rc_substractor.d[3] == 0
     assert rc_substractor.b == 1
 
-    assert rc_substractor.__str__() == 'BXXXX YYYY DDDD\n10000 1111 0001'
+    assert rc_substractor.__str__() == 'X10000\nY 1111\nD 0001'
 
 def test_rc_substractor():
-    rc_substractor = RCSubtractor()
+    rc_substractor = RCSubtractor(4)
 
     rc_substractor.x[0] = 0
     rc_substractor.x[1] = 1
@@ -140,4 +140,4 @@ def test_rc_substractor():
     assert rc_substractor.d[3] == 0
     assert rc_substractor.b == 0
 
-    assert rc_substractor.__str__() == 'BXXXX YYYY DDDD\n01010 0111 0011'
+    assert rc_substractor.__str__() == 'X01010\nY 0111\nD 0011'
