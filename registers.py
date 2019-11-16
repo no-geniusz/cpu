@@ -44,18 +44,19 @@ class ShiftRegister:
 
         return s
 
-class FourBitRegister:
+class WideRegister:
 
-    def __init__(self):
+    def __init__(self, width):
+        self.width = width
         self.load = None
         self.clk = None
-        self.d = [None for _ in range(REG_WIDTH)]
-        self.q = [None for _ in range(REG_WIDTH)]
+        self.d = [None for _ in range(width)]
+        self.q = [None for _ in range(width)]
         self.enable = None
-        self.__regs = [Register() for _ in range(REG_WIDTH)]
+        self.__regs = [Register() for _ in range(width)]
 
     def eval(self):
-        for i in range(REG_WIDTH):
+        for i in range(self.width):
             reg = self.__regs[i]
             reg.load = self.load
             reg.clk = self.clk
@@ -68,10 +69,10 @@ class FourBitRegister:
     def __str__(self):
         s = 'load=%s, clk=%s, enable=%s\n' % (to_bit(self.load), to_bit(self.clk), to_bit(self.enable))
         s += 'Q'
-        for i in range(REG_WIDTH, 0, -1):
+        for i in range(self.width, 0, -1):
             s = s + str(i)
         s += '\n '
-        for i in range(REG_WIDTH, 0, -1):
+        for i in range(self.width, 0, -1):
             s = s + to_bit(self.q[i - 1])
 
         return s

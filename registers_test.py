@@ -1,9 +1,9 @@
-from registers import FourBitRegister
+from registers import WideRegister
 from registers import Register
 from registers import REG_WIDTH
 
 def test_register_eval():
-    reg = FourBitRegister()
+    reg = WideRegister(4)
 
     reg.d[3] = 0
     reg.d[2] = 1
@@ -33,7 +33,7 @@ def test_register_eval():
     assert reg.q[0] == 1
 
 def test_register_str():
-    reg = FourBitRegister()
+    reg = WideRegister(8)
 
     reg.d[3] = 0
     reg.d[2] = 1
@@ -46,7 +46,7 @@ def test_register_str():
 
     reg.eval()
 
-    assert reg.__str__() == 'load=1, clk=1, enable=1\nQ4321\n 0101'
+    assert str(reg) == 'load=1, clk=1, enable=1\nQ87654321\n 00000101'
 
 def test_register_load():
     reg = Register()
