@@ -1,8 +1,8 @@
-from registers import Register
+from registers import FourBitRegister
 from registers import REG_WIDTH
 
 def test_register_eval():
-    reg = Register()
+    reg = FourBitRegister()
 
     reg.d[3] = 0
     reg.d[2] = 1
@@ -30,7 +30,7 @@ def test_register_eval():
     assert reg.q[0] == 1
 
 def test_register_str():
-    reg = Register()
+    reg = FourBitRegister()
 
     reg.d[3] = 0
     reg.d[2] = 1

@@ -42,7 +42,7 @@ class ShiftRegister:
 
         return s
 
-class Register:
+class FourBitRegister:
 
     def __init__(self):
         self.d = [None for k in range(REG_WIDTH)]
