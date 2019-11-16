@@ -1,5 +1,6 @@
 from latches import DLatch
 from util import to_bit
+from gates import NotGate, AndGate, OrGate
 
 REG_WIDTH = 4
 
@@ -70,3 +71,39 @@ class FourBitRegister:
             s = s + to_bit(self.q[i - 1])
 
         return s
+
+class Register:
+
+    def __init__(self):
+        self.load = None
+        self.clk = None
+        self.d = None
+        self.q = None
+
+        self.__not_gate = NotGate()
+        self.__and_gate1 = AndGate()
+        self.__and_gate2 = AndGate()
+        self.__or_gate = OrGate()
+        self.__d_latch = DLatch()
+
+    def eval(self):
+        self.__not_gate.a = self.load
+        self.__not_gate.eval()
+        
+        self.__and_gate1.a = self.__d_latch.q
+        self.__and_gate1.b = self.__not_gate.q
+        self.__and_gate1.eval()
+
+        self.__and_gate2.a = self.load
+        self.__and_gate2.b = self.d
+        self.__and_gate2.eval()
+        
+        self.__or_gate.a = self.__and_gate1.q
+        self.__or_gate.b = self.__and_gate2.q
+        self.__or_gate.eval()
+
+        self.__d_latch.d = self.__or_gate.q
+        self.__d_latch.e = self.clk
+        self.__d_latch.eval()
+
+        self.q = self.__d_latch.q
