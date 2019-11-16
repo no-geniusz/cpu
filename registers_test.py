@@ -44,8 +44,9 @@ def test_register_str():
 
     assert reg.__str__() == 'E1\nDDDD\n0101\nQQQQ\n0101'
 
-def test_register():
+def test_register_load():
     reg = Register()
+    reg.enable = 1
 
     reg.load = 1
     reg.clk = 1
@@ -70,3 +71,18 @@ def test_register():
     reg.d = 0
     reg.eval()
     assert reg.q == 0
+
+def test_register_enable():
+    reg = Register()
+
+    reg.load = 1
+    reg.clk = 1
+    reg.d = 1
+    reg.enable = 1
+    reg.eval()
+    assert reg.q == 1
+
+    reg.enable = 0
+    reg.eval()
+    assert reg.q == None
+

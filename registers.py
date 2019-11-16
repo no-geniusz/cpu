@@ -1,6 +1,7 @@
 from latches import DLatch
 from util import to_bit
 from gates import NotGate, AndGate, OrGate
+from three_state import ThreeState
 
 REG_WIDTH = 4
 
@@ -79,12 +80,14 @@ class Register:
         self.clk = None
         self.d = None
         self.q = None
+        self.enable = None
 
         self.__not_gate = NotGate()
         self.__and_gate1 = AndGate()
         self.__and_gate2 = AndGate()
         self.__or_gate = OrGate()
         self.__d_latch = DLatch()
+        self.__three_state = ThreeState()
 
     def eval(self):
         self.__not_gate.a = self.load
@@ -106,4 +109,8 @@ class Register:
         self.__d_latch.e = self.clk
         self.__d_latch.eval()
 
-        self.q = self.__d_latch.q
+        self.__three_state.a = self.__d_latch.q
+        self.__three_state.b = self.enable
+        self.__three_state.eval()
+
+        self.q = self.__three_state.c
