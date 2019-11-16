@@ -47,19 +47,23 @@ class ShiftRegister:
 class FourBitRegister:
 
     def __init__(self):
-        self.d = [None for k in range(REG_WIDTH)]
-        self.q = [None for k in range(REG_WIDTH)]
-        self.latches = [DLatch() for _ in range(REG_WIDTH)]
-        self.e  = None
+        self.load = None
+        self.clk = None
+        self.d = [None for _ in range(REG_WIDTH)]
+        self.q = [None for _ in range(REG_WIDTH)]
+        self.enable = None
+        self.__regs = [Register() for _ in range(REG_WIDTH)]
 
     def eval(self):
         for i in range(REG_WIDTH):
-            self.latches[i].d = self.d[i]
-            self.latches[i].e = self.e
-            print('before: ' + self.latches[i].__str__())
-            self.latches[i].eval()
-            print('after: ' + self.latches[i].__str__())
-            self.q[i] = self.latches[i].q
+            reg = self.__regs[i]
+            reg.load = self.load
+            reg.clk = self.clk
+            reg.d = self.d[i]
+            reg.enable = self.enable
+            reg.eval()
+
+            self.q[i] = reg.q
 
     def __str__(self):
         s = 'E%s\n' % (to_bit(self.e))
