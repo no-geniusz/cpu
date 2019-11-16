@@ -11,7 +11,7 @@ class Alu:
     x = [None for k in range(REG_WIDTH)]
 
     _adder = RCAdder(REG_WIDTH)
-    _subtractor = RCSubtractor()
+    _subtractor = RCSubtractor(REG_WIDTH)
     _mux = Multiplexer()
 
     def eval(self):
