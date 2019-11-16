@@ -66,12 +66,11 @@ class FourBitRegister:
             self.q[i] = reg.q
 
     def __str__(self):
-        s = 'E%s\n' % (to_bit(self.e))
-        s += 'D' * REG_WIDTH + '\n'
+        s = 'load=%s, clk=%s, enable=%s\n' % (to_bit(self.load), to_bit(self.clk), to_bit(self.enable))
+        s += 'Q'
         for i in range(REG_WIDTH, 0, -1):
-            s = s + to_bit(self.d[i - 1])
-        s = s + '\n'
-        s += 'Q' * REG_WIDTH + '\n'
+            s = s + str(i)
+        s += '\n '
         for i in range(REG_WIDTH, 0, -1):
             s = s + to_bit(self.q[i - 1])
 

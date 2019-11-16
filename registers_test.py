@@ -32,19 +32,21 @@ def test_register_eval():
     assert reg.q[1] == 0
     assert reg.q[0] == 1
 
-# def test_register_str():
-#     reg = FourBitRegister()
+def test_register_str():
+    reg = FourBitRegister()
 
-#     reg.d[3] = 0
-#     reg.d[2] = 1
-#     reg.d[1] = 0
-#     reg.d[0] = 1
+    reg.d[3] = 0
+    reg.d[2] = 1
+    reg.d[1] = 0
+    reg.d[0] = 1
 
-#     reg.e = 1
+    reg.load = 1
+    reg.clk = 1
+    reg.enable = 1
 
-#     reg.eval()
+    reg.eval()
 
-#     assert reg.__str__() == 'E1\nDDDD\n0101\nQQQQ\n0101'
+    assert reg.__str__() == 'load=1, clk=1, enable=1\nQ4321\n 0101'
 
 def test_register_load():
     reg = Register()
