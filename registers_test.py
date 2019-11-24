@@ -1,6 +1,5 @@
 from registers import WideRegister
 from registers import Register
-from registers import REG_WIDTH
 
 def test_register_eval():
     reg = WideRegister(4)
@@ -21,7 +20,7 @@ def test_register_eval():
     assert reg.q[1] == 0
     assert reg.q[0] == 1
 
-    for i in range(REG_WIDTH):
+    for i in range(4):
         reg.d[i] = 0
     reg.clk = 0
 

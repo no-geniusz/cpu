@@ -1,5 +1,4 @@
 from gates import XorGate, AndGate, OrGate
-from registers import REG_WIDTH
 from util import to_bit
 
 class FullAdder:

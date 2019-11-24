@@ -3,15 +3,14 @@ from util import to_bit
 from gates import NotGate, AndGate, OrGate
 from three_state import ThreeState
 
-REG_WIDTH = 4
-
 class ShiftRegister:
 
-    def __init__(self):
+    def __init__(self, width):
+        self.__width = width
         self.data = []
         self.latches = []
 
-        for i in range(REG_WIDTH):
+        for i in range(self.__width):
             self.data.insert(0, None)
             self.latches.insert(0, DLatch())
 
@@ -19,13 +18,13 @@ class ShiftRegister:
         self.d = None
 
     def eval(self):
-        for i in range(REG_WIDTH - 1):
+        for i in range(self.__width - 1):
             self.latches[i].d = self.latches[i + 1].q
             self.latches[i].e = self.e
             self.latches[i].eval()
             self.data[i] = self.latches[i].q
 
-        i = REG_WIDTH - 1
+        i = self.__width - 1
         self.latches[i].d = self.d
         self.latches[i].e = self.e
         self.latches[i].eval()
@@ -34,13 +33,13 @@ class ShiftRegister:
     def __str__(self):
         s = 'E%s, D%s\n' % (to_bit(self.e), to_bit(self.d))
         
-        for i in range(REG_WIDTH):
-            s = s + 'D' + str(REG_WIDTH - i - 1) + ' '
+        for i in range(self.__width):
+            s = s + 'D' + str(self.__width - i - 1) + ' '
         
         s = s + '\n'
         
-        for i in range(REG_WIDTH):
-            s = s + ' ' + to_bit(self.data[REG_WIDTH - i - 1]) + ' '
+        for i in range(self.__width):
+            s = s + ' ' + to_bit(self.data[self.__width - i - 1]) + ' '
 
         return s
 

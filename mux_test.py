@@ -1,4 +1,3 @@
-from registers import REG_WIDTH
 from mux import Multiplexer
 
 def test_mux00():
