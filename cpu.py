@@ -1,38 +1,26 @@
-from registers import Register
-from registers import REG_WIDTH
-from adders import RCAdder
+from bus import Bus
+from registers import WideRegister
+from display import NumDisplay
 
-reg1 = Register()
-reg1.e = 0
-reg2 = Register()
-reg2.e = 0
-adder = RCAdder()
+class CPU:
 
-print(reg1)
-print(reg2)
-print(adder)
+    REG_WIDTH = 4
 
-while True:
-    key = input("d/e")
-    if key == 'e':
-        reg1.e = not reg1.e
-        reg2.e = not reg2.e
+    def __init__(self):
+        self.bus = Bus(CPU.REG_WIDTH)
+        self.out_register = WideRegister(CPU.REG_WIDTH)
+        self.bus.add(self.out_register)
+        self.display = NumDisplay(CPU.REG_WIDTH)
 
-    for ch in range(1,5):
-        if (str(ch) == key):
-            reg1.d[REG_WIDTH - ch] = not reg1.d[REG_WIDTH - ch]
-    for ch in range(5,9):
-        if (str(ch) == key):
-            reg2.d[REG_WIDTH - ch] = not reg2.d[REG_WIDTH - ch]
+    def eval(self):
+        self.bus.line = [1, 0, 0, 1, 1, 0, 0, 1]
+        self.out_register.load = 1
+        self.out_register.clk = 1
+        self.bus.eval()
 
-    reg1.eval()
-    print(reg1)
+        self.display.a = self.out_register.d
+        self.display.eval()
 
-    reg2.eval()
-    print(reg2)
+cpu = CPU()
+cpu.eval()
 
-    for k in range(REG_WIDTH):
-        adder.a[k] = reg1.q[k]
-        adder.b[k] = reg2.q[k]
-    adder.eval()
-    print(adder)
