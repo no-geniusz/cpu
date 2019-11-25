@@ -1,6 +1,7 @@
 from adders import RCAdder
 from subtractors import RCSubtractor
 from mux import Multiplexer
+from three_state import ThreeState
 
 class Alu:
 
@@ -11,10 +12,12 @@ class Alu:
         self.b = [None for _ in range(width)]
         self.o = [None for _ in range(2)]
         self.x = [None for _ in range(width)]
+        self.enabled = None
 
         self.__adder = RCAdder(width)
         self.__subtractor = RCSubtractor(width)
         self.__muxes = [Multiplexer() for _ in range(width)]
+        self.__three_state = [ThreeState() for _ in range(width)]
 
     def eval(self):
         for k in range(self.__width):
@@ -33,4 +36,10 @@ class Alu:
             self.__muxes[k].eval()
 
         for k in range(self.__width):
-            self.x[k] = self.__muxes[k].out
+            three_state = self.__three_state[k]
+            three_state.a = self.__muxes[k].out
+            three_state.b = self.enabled
+            three_state.eval()
+
+        for k in range(self.__width):
+            self.x[k] = self.__three_state[k].c
