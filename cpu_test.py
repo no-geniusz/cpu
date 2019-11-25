@@ -30,6 +30,42 @@ def test_mem_write_read():
     __mem_addr(cpu, [0, 0, 0, 1])
     assert __mem_read(cpu) == [0, 1, 1, 1, 0, 1, 1, 1]
 
+def test_register_a():
+    cpu = CPU()
+    cpu.clk = 1
+
+    cpu.bus.line = [1, 0, 0, 1, 1, 1, 0, 0]
+    cpu.register_a.enable = 0
+    cpu.register_a.load = 1
+    cpu.eval()
+
+    cpu.bus.line = [0, 0, 0, 0, 0, 0, 0, 0]
+    cpu.register_a.load = 0
+    cpu.eval()
+
+    cpu.register_a.enable = 1
+    cpu.eval()
+
+    assert cpu.bus.line == [1, 0, 0, 1, 1, 1, 0, 0]
+
+def test_register_b():
+    cpu = CPU()
+    cpu.clk = 1
+
+    cpu.bus.line = [1, 0, 0, 1, 1, 1, 0, 0]
+    cpu.register_b.enable = 0
+    cpu.register_b.load = 1
+    cpu.eval()
+
+    cpu.bus.line = [0, 0, 0, 0, 0, 0, 0, 0]
+    cpu.register_b.load = 0
+    cpu.eval()
+
+    cpu.register_b.enable = 1
+    cpu.eval()
+
+    assert cpu.bus.line == [1, 0, 0, 1, 1, 1, 0, 0]
+
 def __mem_addr(cpu, addr):
     cpu.bus.line = [0, 0, 0, 0] + addr
     cpu.memory.write = 0
