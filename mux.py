@@ -41,9 +41,4 @@ class Multiplexer:
         self.__three_state3.b = self.__decoder.d3
         self.__three_state3.eval()
 
-        print(self.__three_state0.c)
-        print(self.__three_state1.c)
-        print(self.__three_state2.c)
-        print(self.__three_state3.c)
-        
         self.out = list(filter(lambda x: x != None, [self.__three_state0.c, self.__three_state1.c, self.__three_state2.c, self.__three_state3.c]))[0]
