@@ -1,5 +1,5 @@
 from gates import XorGate, AndGate, OrGate, NotGate
-from util import to_bit
+from util import to_bit, to_bit_arr
 
 class FullSubtractor:
 
@@ -58,35 +58,20 @@ class RCSubtractor:
         self.d = [None for _ in range(width)]
         self.b = None
 
-        self.__subtractors = [FullSubtractor() for k in range(width)]
+        self.__subtractors = [FullSubtractor() for _ in range(width)]
 
     def eval(self):
-        self.__subtractors[0].x = self.x[0]
-        self.__subtractors[0].y = self.y[0]
-        self.__subtractors[0].bin = 0
-        self.__subtractors[0].eval()
-        self.d[0] = self.__subtractors[0].d
-
-        for k in range(1, self.__width):
-            self.__subtractors[k].x = self.x[k]
-            self.__subtractors[k].y = self.y[k]
-            self.__subtractors[k].bin = self.__subtractors[k - 1].bout
-            self.__subtractors[k].eval()
+        for k in range(self.__width - 1, -1, -1):
+            subtractor = self.__subtractors[k]
+            subtractor.x = self.x[k]
+            subtractor.y = self.y[k]
+            if k == self.__width - 1:
+                subtractor.bin = 0
+            else:
+                subtractor.bin = self.__subtractors[k + 1].bout
+            subtractor.eval()
             self.d[k] = self.__subtractors[k].d
-
-        self.b = self.__subtractors[self.__width - 1].bout
+        self.b = self.__subtractors[0].bout
 
     def __str__(self):
-        s = 'X' + to_bit(self.b)
-        for k in range(self.__width - 1, -1, -1):
-            s += to_bit(self.x[k])
-
-        s += '\nY '
-        for k in range(self.__width - 1, -1, -1):
-            s += to_bit(self.y[k])
-
-        s += '\nD '
-        for k in range(self.__width - 1, -1, -1):
-            s += to_bit(self.d[k])
-
-        return s
+        return 'X' + to_bit(self.b) + to_bit_arr(self.x) + '\nY ' + to_bit_arr(self.y) + '\nD ' + to_bit_arr(self.d)

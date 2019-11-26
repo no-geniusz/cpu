@@ -99,22 +99,11 @@ def test_adding_111():
 def test_rc_adder_carry():
     rc_adder = RCAdder(4)
 
-    rc_adder.a[0] = 1
-    rc_adder.a[1] = 1
-    rc_adder.a[2] = 1
-    rc_adder.a[3] = 1
-
-    rc_adder.b[0] = 1
-    rc_adder.b[1] = 1
-    rc_adder.b[2] = 1
-    rc_adder.b[3] = 1
-
+    rc_adder.a = [1, 1, 1, 1]
+    rc_adder.b = [1, 1, 1, 1]
     rc_adder.eval()
 
-    assert rc_adder.s[0] == 0
-    assert rc_adder.s[1] == 1
-    assert rc_adder.s[2] == 1
-    assert rc_adder.s[3] == 1
+    assert rc_adder.s == [1, 1, 1, 0]
     assert rc_adder.c == 1
 
     assert str(rc_adder) == 'A 1111\nB 1111\nC11110'
@@ -122,22 +111,11 @@ def test_rc_adder_carry():
 def test_rc_adder():
     rc_adder = RCAdder(4)
 
-    rc_adder.a[0] = 1
-    rc_adder.a[1] = 1
-    rc_adder.a[2] = 1
-    rc_adder.a[3] = 0
-
-    rc_adder.b[0] = 1
-    rc_adder.b[1] = 0
-    rc_adder.b[2] = 1
-    rc_adder.b[3] = 0
-
+    rc_adder.a = [0, 1, 1, 1]
+    rc_adder.b = [0, 1, 0, 1]
     rc_adder.eval()
 
-    assert rc_adder.s[0] == 0
-    assert rc_adder.s[1] == 0
-    assert rc_adder.s[2] == 1
-    assert rc_adder.s[3] == 1
+    assert rc_adder.s == [1, 1, 0, 0]
     assert rc_adder.c == 0
 
     assert str(rc_adder) == 'A 0111\nB 0101\nC01100'

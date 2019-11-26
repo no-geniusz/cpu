@@ -2,6 +2,8 @@ from bus import Bus
 from registers import WideRegister
 from display import NumDisplay
 from memory import Memory
+from alu import Alu
+from three_state import WideThreeState
 
 class CPU:
 
@@ -14,7 +16,10 @@ class CPU:
         self.memory_register = WideRegister(4)
         self.memory = Memory()
         self.register_a = WideRegister(CPU.REG_WIDTH)
+        self.register_a_three_state = WideThreeState(CPU.REG_WIDTH)
         self.register_b = WideRegister(CPU.REG_WIDTH)
+        self.register_b_three_state = WideThreeState(CPU.REG_WIDTH)
+        self.alu = Alu(CPU.REG_WIDTH)
         self.out_register = WideRegister(CPU.REG_WIDTH)
         self.display = NumDisplay(CPU.REG_WIDTH)
 
@@ -31,13 +36,24 @@ class CPU:
 
         self.register_a.clk = self.clk
         self.register_a.d = self.bus.line
+        self.register_a.enable = True
         self.register_a.eval()
-        self.bus.apply(self.register_a.q)
+        self.register_a_three_state.a = self.register_a.q
+        self.register_a_three_state.eval()
+        self.bus.apply(self.register_a_three_state.c)
 
         self.register_b.clk = self.clk
         self.register_b.d = self.bus.line
+        self.register_b.enable = True
         self.register_b.eval()
-        self.bus.apply(self.register_b.q)
+        self.register_b_three_state.a = self.register_b.q
+        self.register_b_three_state.eval()
+        self.bus.apply(self.register_b_three_state.c)
+
+        self.alu.a = self.register_a.q
+        self.alu.b = self.register_b.q
+        self.alu.eval()
+        self.bus.apply(self.alu.x)
 
         self.out_register.clk = self.clk
         self.out_register.d = self.bus.line
@@ -45,20 +61,3 @@ class CPU:
 
         self.display.a = self.out_register.d
         self.display.eval()
-
-cpu = CPU()
-cpu.clk = 1
-
-cpu.bus.line = [0, 0, 0, 0, 1, 0, 0, 1]
-cpu.memory.write = 0
-cpu.memory.enable = 0
-cpu.memory_register.load = 1
-cpu.memory_register.enable = 0
-cpu.eval()
-
-cpu.bus.line = [1, 0, 0, 0, 1, 0, 0, 0]
-cpu.memory.write = 1
-cpu.memory_register.load = 0
-cpu.memory_register.enable = 1
-cpu.eval()
-

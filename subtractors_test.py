@@ -99,45 +99,23 @@ def test_subtract_111():
 def test_rc_substractor_borrow():
     rc_substractor = RCSubtractor(4)
 
-    rc_substractor.x[0] = 0
-    rc_substractor.x[1] = 0
-    rc_substractor.x[2] = 0
-    rc_substractor.x[3] = 0
-
-    rc_substractor.y[0] = 1
-    rc_substractor.y[1] = 1
-    rc_substractor.y[2] = 1
-    rc_substractor.y[3] = 1
-
+    rc_substractor.x = [0, 0, 0, 0]
+    rc_substractor.y = [1, 1, 1, 1]
     rc_substractor.eval()
 
-    assert rc_substractor.d[0] == 1
-    assert rc_substractor.d[1] == 0
-    assert rc_substractor.d[2] == 0
-    assert rc_substractor.d[3] == 0
+    assert rc_substractor.d == [0, 0, 0, 1]
     assert rc_substractor.b == 1
 
-    assert rc_substractor.__str__() == 'X10000\nY 1111\nD 0001'
+    assert str(rc_substractor) == 'X10000\nY 1111\nD 0001'
 
 def test_rc_substractor():
     rc_substractor = RCSubtractor(4)
 
-    rc_substractor.x[0] = 0
-    rc_substractor.x[1] = 1
-    rc_substractor.x[2] = 0
-    rc_substractor.x[3] = 1
-
-    rc_substractor.y[0] = 1
-    rc_substractor.y[1] = 1
-    rc_substractor.y[2] = 1
-    rc_substractor.y[3] = 0
-
+    rc_substractor.x = [1, 0, 1, 0]
+    rc_substractor.y = [0, 1, 1, 1]
     rc_substractor.eval()
 
-    assert rc_substractor.d[0] == 1
-    assert rc_substractor.d[1] == 1
-    assert rc_substractor.d[2] == 0
-    assert rc_substractor.d[3] == 0
+    assert rc_substractor.d == [0, 0, 1, 1]
     assert rc_substractor.b == 0
 
-    assert rc_substractor.__str__() == 'X01010\nY 0111\nD 0011'
+    assert str(rc_substractor) == 'X01010\nY 0111\nD 0011'

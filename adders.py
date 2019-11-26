@@ -1,5 +1,5 @@
 from gates import XorGate, AndGate, OrGate
-from util import to_bit
+from util import to_bit, to_bit_arr
 
 class FullAdder:
 
@@ -46,39 +46,28 @@ class RCAdder:
 
     def __init__(self, width):
         self.__width = width
-        self.adders = [FullAdder() for k in range(width)]
-        self.a = [None for k in range(width)]
-        self.b = [None for k in range(width)]
-        self.s = [None for k in range(width)]
+
+        self.a = [None] * width
+        self.b = [None] * width
+        self.s = [None] * width
         self.c = None
 
+        self.__adders = [FullAdder() for _ in range(width)]
+
     def eval(self):
-        self.adders[0].a = self.a[0]
-        self.adders[0].b = self.b[0]
-        self.adders[0].cin = 0
-        self.adders[0].eval()
-        self.s[0] = self.adders[0].s
+        for k in range(self.__width - 1, -1, -1):
+            adder = self.__adders[k]
+            
+            adder.a = self.a[k]
+            adder.b = self.b[k]
+            if k == self.__width - 1:
+                adder.cin = 0
+            else:
+                adder.cin = self.__adders[k + 1].cout
+            adder.eval()
+            self.s[k] = adder.s
 
-        for k in range(1, self.__width):
-            self.adders[k].a = self.a[k]
-            self.adders[k].b = self.b[k]
-            self.adders[k].cin = self.adders[k - 1].cout
-            self.adders[k].eval()
-            self.s[k] = self.adders[k].s
-
-        self.c = self.adders[self.__width - 1].cout
+        self.c = self.__adders[0].cout
 
     def __str__(self):
-        s = 'A '
-        for k in range(self.__width - 1, -1, -1):
-            s += to_bit(self.a[k])
-
-        s += '\nB '
-        for k in range(self.__width - 1, -1, -1):
-            s += to_bit(self.b[k])
-
-        s += '\nC' + to_bit(self.c)
-        for k in range(self.__width - 1, -1, -1):
-            s += to_bit(self.s[k])
-
-        return s
+        return 'A ' + to_bit_arr(self.a) + '\nB ' + to_bit_arr(self.b) + '\nC' + to_bit(self.c) + to_bit_arr(self.s)

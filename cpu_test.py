@@ -35,7 +35,7 @@ def test_register_a():
     cpu.clk = 1
 
     cpu.bus.line = [1, 0, 0, 1, 1, 1, 0, 0]
-    cpu.register_a.enable = 0
+    cpu.register_a_three_state.b = 0
     cpu.register_a.load = 1
     cpu.eval()
 
@@ -43,7 +43,7 @@ def test_register_a():
     cpu.register_a.load = 0
     cpu.eval()
 
-    cpu.register_a.enable = 1
+    cpu.register_a_three_state.b = 1
     cpu.eval()
 
     assert cpu.bus.line == [1, 0, 0, 1, 1, 1, 0, 0]
@@ -53,7 +53,7 @@ def test_register_b():
     cpu.clk = 1
 
     cpu.bus.line = [1, 0, 0, 1, 1, 1, 0, 0]
-    cpu.register_b.enable = 0
+    cpu.register_b_three_state.b = 0
     cpu.register_b.load = 1
     cpu.eval()
 
@@ -61,10 +61,31 @@ def test_register_b():
     cpu.register_b.load = 0
     cpu.eval()
 
-    cpu.register_b.enable = 1
+    cpu.register_b_three_state.b = 1
     cpu.eval()
 
     assert cpu.bus.line == [1, 0, 0, 1, 1, 1, 0, 0]
+
+def test_alu():
+    cpu = CPU()
+    cpu.clk = 1
+
+    cpu.bus.line = [0, 0, 0, 0, 0, 0, 1, 1]
+    cpu.register_a.load = 1
+    cpu.eval()
+
+    cpu.bus.line = [0, 0, 0, 0, 0, 0, 0, 1]
+    cpu.register_a.load = 0
+    cpu.register_b.load = 1
+    cpu.eval()
+
+    cpu.register_b.load = 0
+
+    cpu.alu.o = [0, 0]
+    cpu.alu.enabled = 1
+    cpu.eval()
+
+    assert cpu.bus.line == [0, 0, 0, 0, 0, 1, 0, 0]
 
 def __mem_addr(cpu, addr):
     cpu.bus.line = [0, 0, 0, 0] + addr
