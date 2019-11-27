@@ -61,3 +61,16 @@ def test_xor():
 
     assert xor_gate.q == 0
     assert xor_gate.__str__() == 'ABQ\n110'
+
+def test_multi_in_and():
+    gate = MultiInAndGate(3)
+
+    gate.d[0] = 1
+    gate.d[1] = 1
+    gate.d[2] = 0
+    gate.eval()
+    assert gate.q == 0
+
+    gate.d[2] = 1
+    gate.eval()
+    assert gate.q == 1

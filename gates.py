@@ -130,3 +130,24 @@ class XorGate(TwoInGate):
         self.and_gate.eval()
 
         self.q = self.and_gate.q
+
+class MultiInAndGate:
+
+    def __init__(self, width):
+        self.__width = width
+
+        self.d = [None] * width
+        self.q = None
+        self.__gates = [AndGate() for _ in range(width - 1)]
+
+    def eval(self):
+        self.__gates[0].a = self.d[0]
+        self.__gates[0].b = self.d[1]
+        self.__gates[0].eval()
+
+        for k in range(1, self.__width - 1):
+            self.__gates[k].a = self.__gates[k - 1].q
+            self.__gates[k].b = self.d[k + 1]
+            self.__gates[k].eval()
+
+        self.q = self.__gates[self.__width - 2].q
